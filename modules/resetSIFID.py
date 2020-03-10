@@ -33,9 +33,9 @@ def run():
     time.sleep(2)
 
     pag.mouseDown(TEXT_XY)
-    utils.waitForColorAtPosition([SELECT_ALL_RGB], [SELECT_ALL_XY])
+    selectAllPos = utils.waitForImage('images/select-all.png')
     pag.mouseUp()
-    pag.click(SELECT_ALL_XY)
+    pag.click(selectAllPos)
     pag.typewrite(['backspace'])
 
     print('\tWriting playerprefs.xml...')

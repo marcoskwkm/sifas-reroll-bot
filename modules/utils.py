@@ -1,6 +1,9 @@
 import pyautogui as pag
 import time
 
+class TimeoutError(Exception):
+    pass
+
 def waitForColorAtPosition(colors, positions):
     while True:
         img = pag.screenshot()
@@ -9,8 +12,11 @@ def waitForColorAtPosition(colors, positions):
                 return (color, pos)
         time.sleep(0.1)
 
-def waitForImage(path):
+def waitForImage(path, timeout=0):
+    startTime = time.perf_counter()
     while True:
         pos = pag.locateCenterOnScreen(path, confidence=0.9)
         if pos != None:
             return pos
+        if timeout > 0 and time.perf_counter() - startTime > timeout:
+            raise TimeoutError('Could not find image %s' % path)
